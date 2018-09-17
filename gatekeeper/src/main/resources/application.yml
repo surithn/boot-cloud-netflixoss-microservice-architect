@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: GateKeeper
+
+server:
+  port: 8080
+      
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    registerWithEureka: false  
+    
+ribbon:
+  eager-load:
+    enabled: true   
+    
+zuul:
+  prefix: /api
+  routes:
+    feign: 
+      path: /feign/**
+      service-id: feign-client  
+    counter:
+      path: /counter/**
+      service-id: counter-service      
+      
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    restart:
+      enabled: true
+    shutdown:
+      enabled: true
+      
+
+logging:
+  level:
+    root: info
+    org.springframework.web: DEBUG      
+                   
